@@ -1,0 +1,43 @@
+{
+  "name": "snapper2-node-client",
+  "description": "Snapper2 client for node.js",
+  "authors": [
+    "Yan Qing <admin@zensh.com>"
+  ],
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@code.teambition.com:server/snapper2-node-client.git"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "homepage": "https://code.teambition.com/server/snapper2-node-client",
+  "keywords": [
+    "module",
+    "snapper2"
+  ],
+  "dependencies": {
+    "jsonrpc-lite": "^1.0.0",
+    "jws": "~3.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.9.4",
+    "gulp-mocha": "^2.0.0",
+    "gulp-sequence": "^0.3.2",
+    "jsonwebtoken": "^4.2.1",
+    "mocha": "^2.2.1"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "examples",
+    "gulpfile.js"
+  ]
+}
