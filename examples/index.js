@@ -3,9 +3,9 @@
 
 var Snapper = require('../index');
 
-var client = new Snapper(3001, '127.0.0.1', {
+var client = new Snapper(7800, 'http://snapper.project.bi', {
   producerId: 'testProducerId',
-  secretKeys: ["tokenXXXXX"]
+  secretKeys: ["tokenXXXXXXX"]
 });
 
 // var token = client.signAuth({userId: 'userIdxxx'});

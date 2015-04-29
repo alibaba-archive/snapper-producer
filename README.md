@@ -2,7 +2,7 @@ snapper2-producer
 ====
 Snapper2 producer client for node.js.
 
-**`Snapper2 producer` is test in `Snapper2`**
+**`Snapper2-producer` is test in `Snapper2`**
 
 ## Snapper2 https://code.teambition.com/server/snapper2
 
@@ -11,9 +11,9 @@ Snapper2 producer client for node.js.
 ```js
 var Snapper = require('snapper2-producer');
 
-var client = new Snapper(3001, '127.0.0.1', {
+var client = new Snapper(7800, 'http://snapper.project.bi', {
   producerId: 'testProducerId',
-  secretKeys: ["tokenXXXXX"]
+  secretKeys: ["tokenXXXXXXX"]
 });
 
 // generate a token for a consumer
