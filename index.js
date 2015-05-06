@@ -63,10 +63,12 @@ SnapperProducer.prototype.leaveRoom = function(room, consumerId, callback) {
 };
 
 SnapperProducer.prototype.close = function() {
+  if (this.connection.ended) return;
   this.connection.destroy();
   this.connection.ended = true;
+  for (var id in this.connection.pendingRpc)
+    this.connection.pendingRpc[id].callback(new Error('Client have been closed!'));
   this.emit('close');
-  this.removeAllListeners();
 };
 
 
