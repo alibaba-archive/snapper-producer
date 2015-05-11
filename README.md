@@ -9,28 +9,84 @@ Snapper2 producer client for node.js.
 ## Demo
 
 ```js
-var Snapper = require('snapper2-producer');
+var Producer = require('snapper2-producer');
 
-var client = new Snapper(7800, 'http://snapper.project.bi', {
+var producer = new Producer(7800, 'http://snapper.project.bi', {
   producerId: 'testProducerId',
   secretKeys: ["tokenXXXXXXX"]
 });
 
 // generate a token for a consumer
-var token = client.signAuth({userId: 'userIdxxx'});
+var token = producer.signAuth({userId: 'userIdxxx'});
 
 // send a message to a room
-client.sendMessage('room', 'message');
+producer.sendMessage('room', 'message');
 
-client.sendMessage('projects/51762b8f78cfa9f357000011', '{"e":":remove:tasks","d":"553f569aca14974c5f806a01"}');
+producer.sendMessage('projects/51762b8f78cfa9f357000011', '{"e":":remove:tasks","d":"553f569aca14974c5f806a01"}');
 
 // add a consumer to a room
-client.joinRoom('room', 'consumerId', callback);
+producer.joinRoom('room', 'consumerId', callback);
 
-client.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function(err, res) {/*...*/});
+producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function(err, res) {/*...*/});
 
 // remove a consumer from a room
-client.leaveRoom('room', 'consumerId', callback);
+producer.leaveRoom('room', 'consumerId', callback);
 
-client.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function(err, res) {/*...*/});
+producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function(err, res) {/*...*/});
 ```
+
+## API
+
+```js
+var Producer = require('snapper2-producer');
+```
+
+### new Producer(port[, host], options)
+
+```js
+var producer = new Producer(7700, '127.0.0.1', {
+  secretKeys: 'secretKeyXXX',
+  producerId: 'myproducerId'
+});
+```
+- `port`: `Number`, Snapper2 server port.
+- `host`: `String`, Snapper2 server host, default to `'127.0.0.1'`.
+
+- `options.producerId`: `String`, producer's name, use for log.
+- `options.secretKeys`: A array of string or buffer containing either the secret for HMAC algorithms, or the PEM encoded private key for RSA and ECDSA.
+- `options.expiresInSeconds`: default to `3600 * 24`, one day.
+- `options.algorithm`: `String`, default to `'HS256'`.
+
+
+### producer.prototype.signAuth(payload)
+
+- `payload`: `Object`.
+
+Generate a token string. `payload` should have `userId` property that Snapper2 server determine which room the consumer should auto join (similar to handshake).
+
+### producer.prototype.sendMessage(room, message)
+
+- `room`: `String`
+- `message`: `String`
+
+Send a message to a room, the message will be broadcast to all consumers in the room.
+
+### producer.prototype.joinRoom(room, consumerId[, callback])
+
+- `room`: `String`
+- `consumerId`: `String`
+- `callback`: `Function`
+
+Let a consumer join to a room by it's consumerId.
+
+### producer.prototype.leaveRoom(room, consumerId[, callback])
+
+- `room`: `String`
+- `consumerId`: `String`
+- `callback`: `Function`
+
+Let a consumer leave from a room by it's consumerId.
+
+### producer.prototype.close()
+
+Close the producer client.
