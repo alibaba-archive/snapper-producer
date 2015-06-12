@@ -9,36 +9,36 @@ Snapper2 producer client for node.js.
 ## Demo
 
 ```js
-var Producer = require('snapper2-producer');
+var Producer = require('snapper2-producer')
 
 var producer = new Producer(7800, 'http://snapper.project.bi', {
   producerId: 'testProducerId',
   secretKeys: ["tokenXXXXXXX"]
-});
+})
 
 // generate a token for a consumer
-var token = producer.signAuth({userId: 'userIdxxx'});
+var token = producer.signAuth({userId: 'userIdxxx'})
 
 // send a message to a room
-producer.sendMessage('room', 'message');
+producer.sendMessage('room', 'message')
 
-producer.sendMessage('projects/51762b8f78cfa9f357000011', '{"e":":remove:tasks","d":"553f569aca14974c5f806a01"}');
+producer.sendMessage('projects/51762b8f78cfa9f357000011', '{"e":":remove:tasks","d":"553f569aca14974c5f806a01"}')
 
 // add a consumer to a room
-producer.joinRoom('room', 'consumerId', callback);
+producer.joinRoom('room', 'consumerId', callback)
 
-producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function(err, res) {/*...*/});
+producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function (err, res) {/*...*/})
 
 // remove a consumer from a room
-producer.leaveRoom('room', 'consumerId', callback);
+producer.leaveRoom('room', 'consumerId', callback)
 
-producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function(err, res) {/*...*/});
+producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function (err, res) {/*...*/})
 ```
 
 ## API
 
 ```js
-var Producer = require('snapper2-producer');
+var Producer = require('snapper2-producer')
 ```
 
 ### new Producer(port[, host], options)
@@ -47,7 +47,7 @@ var Producer = require('snapper2-producer');
 var producer = new Producer(7700, '127.0.0.1', {
   secretKeys: 'secretKeyXXX',
   producerId: 'myproducerId'
-});
+})
 ```
 - `port`: `Number`, Snapper2 server port.
 - `host`: `String`, Snapper2 server host, default to `'127.0.0.1'`.
