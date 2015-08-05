@@ -50,18 +50,21 @@ SnapperProducer.prototype.sendMessage = function (room, message) {
 }
 
 SnapperProducer.prototype.joinRoom = function (room, consumerId, callback) {
-  if (!validString(room) || !validString(consumerId)) {
-    throw new Error('arguments must be string')
-  }
-  this.connection.sendRPC('subscribe', [room, consumerId], callback)
-  return this
+  return this.request('subscribe', [room, consumerId], callback)
 }
 
 SnapperProducer.prototype.leaveRoom = function (room, consumerId, callback) {
-  if (!validString(room) || !validString(consumerId)) {
-    throw new Error('arguments must be string')
+  return this.request('unsubscribe', [room, consumerId], callback)
+}
+
+SnapperProducer.prototype.request = function (method, params, callback) {
+  var connection = this.connection
+  function task (done) {
+    connection.sendRPC(method, params, done)
   }
-  this.connection.sendRPC('unsubscribe', [room, consumerId], callback)
+  
+  if (!callback) return task
+  task(callback)
   return this
 }
 

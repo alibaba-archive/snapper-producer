@@ -2,7 +2,7 @@ snapper2-producer
 ====
 Snapper2 producer client for node.js.
 
-**`Snapper2-producer` is test in `Snapper2`**
+**`Snapper2-producer` is tested in `Snapper2`**
 
 ## Snapper2 https://code.teambition.com/server/snapper2
 
@@ -33,6 +33,10 @@ producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~
 producer.leaveRoom('room', 'consumerId', callback)
 
 producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function (err, res) {/*...*/})
+
+producer.request('consumers', ['userIdxxx'], function (err, res) {
+  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
+})
 ```
 
 ## API
@@ -56,7 +60,6 @@ var producer = new Producer(7700, '127.0.0.1', {
 - `options.secretKeys`: A array of string or buffer containing either the secret for HMAC algorithms, or the PEM encoded private key for RSA and ECDSA.
 - `options.expiresInSeconds`: default to `3600 * 24`, one day.
 - `options.algorithm`: `String`, default to `'HS256'`.
-
 
 ### producer.prototype.signAuth(payload)
 
@@ -86,6 +89,28 @@ Let a consumer join to a room by it's consumerId.
 - `callback`: `Function`
 
 Let a consumer leave from a room by it's consumerId.
+
+### producer.prototype.request(method, params[, callback])
+
+- `method`: `String`
+- `params`: `Object|Array`
+- `callback`: `Function`
+
+Make a custom request to server. if `callback` omitted, it will return thunk function.
+
+It only support `consumers` method Currently. The callback result will be a array include consumerIds. If user do not have consumer, the result will a emtpy array.
+
+```
+producer.request('consumers', ['userIdxxx'], function (err, res) {
+  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
+})
+```
+or:
+```
+producer.request('consumers', ['userIdxxx'])(function (err, res) {
+  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
+})
+```
 
 ### producer.prototype.close()
 
