@@ -7,23 +7,25 @@ var EventEmitter = require('events').EventEmitter
 
 var Connection = require('./lib/connection')
 
-var defaultHost = '127.0.0.1'
+const DEFAULT_HOST = '127.0.0.1'
+const DEFAULT_EXP = 3600 * 24 * 2
+const DEFAULT_EXP_THR = 60
 
 module.exports = SnapperProducer
 
 function SnapperProducer (port, host, options) {
   if (!(this instanceof SnapperProducer)) return new SnapperProducer(port, host, options)
-  if (!port || typeof port !== 'number') throw new Error('Port is required')
+  if (!port || typeof port !== 'number') throw new Error('port is required')
   if (!validString(host)) {
     options = host
-    host = defaultHost
+    host = DEFAULT_HOST
   }
   if (!options || !options.secretKeys || !options.secretKeys.length) throw new Error('secretKeys is required')
   if (!validString(options.producerId)) throw new Error('producerId is required')
 
-  this._options = options
-  this._secretKeys = Array.isArray(options.secretKeys) ? options.secretKeys : [options.secretKeys]
-  this._expiresInSeconds = options.expiresInSeconds > 60 ? Math.floor(options.expiresInSeconds) : 3600 * 24 * 2
+  this._algorithm = options.algorithm
+  this._expiresInSeconds = options.expiresInSeconds > DEFAULT_EXP_THR ? Math.floor(options.expiresInSeconds) : DEFAULT_EXP
+  this._secretKey = Array.isArray(options.secretKeys) ? options.secretKeys[0] : options.secretKeys
   this.producerId = options.producerId
 
   EventEmitter.call(this)
@@ -33,18 +35,14 @@ function SnapperProducer (port, host, options) {
 
 util.inherits(SnapperProducer, EventEmitter)
 
-// 生成 header authorization，用于 PUT、POST 请求验证
+/* Generates header authorization for PUT/POST requests. */
 SnapperProducer.prototype.signAuth = function (payload) {
-  payload = payload || {}
   payload.exp = Math.floor(Date.now() / 1000) + this._expiresInSeconds
-
-  return sign(payload, this._secretKeys[0], this._options)
+  var header = {typ: 'JWT', alg: this._algorithm || 'HS256'}
+  return jws.sign({header: header, payload: payload, secret: this._secretKey})
 }
 
 SnapperProducer.prototype.sendMessage = function (room, message) {
-  if (!validString(room) || !validString(message)) {
-    throw new Error('arguments must be string')
-  }
   this.connection.send([room, message])
   return this
 }
@@ -57,31 +55,29 @@ SnapperProducer.prototype.leaveRoom = function (room, consumerId, callback) {
   return this.request('unsubscribe', [room, consumerId], callback)
 }
 
+/**
+ * Sends RPC Requests.
+ * @param {String} RPC request type
+ * @param {Array} RPC request parameters
+ * @param {Function} Callback function
+ *
+ * @return {Function} A function that forwards RPC requests when callback is not provided
+ *         otherwise {Object} SnapperProducer object
+ */
 SnapperProducer.prototype.request = function (method, params, callback) {
   var connection = this.connection
   function task (done) {
-    connection.sendRPC(method, params, done)
+    connection.sendRpc(method, params, done)
   }
-  
+
   if (!callback) return task
   task(callback)
   return this
 }
 
 SnapperProducer.prototype.close = function () {
-  if (this.connection.ended) return
-  this.connection.destroy()
-  this.connection.ended = true
-  for (var id in this.connection.pendingRpc)
-    this.connection.pendingRpc[id].callback(new Error('Client have been closed!'))
+  this.connection.close()
   this.emit('close')
-}
-
-function sign (payload, secretOrPrivateKey, options) {
-  options = options || {}
-
-  var header = {typ: 'JWT', alg: options.algorithm || 'HS256'}
-  return jws.sign({header: header, payload: payload, secret: secretOrPrivateKey})
 }
 
 function validString (str) {
