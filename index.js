@@ -1,11 +1,10 @@
 'use strict'
 // **Github:** https://code.teambition.com/server/snapper2-node-client
 
-var jws = require('jws')
-var util = require('util')
-var EventEmitter = require('events').EventEmitter
-
-var Connection = require('./lib/connection')
+const jws = require('jws')
+const util = require('util')
+const EventEmitter = require('events').EventEmitter
+const Connection = require('./lib/connection')
 
 const DEFAULT_HOST = '127.0.0.1'
 const DEFAULT_EXP = 3600 * 24 * 2
