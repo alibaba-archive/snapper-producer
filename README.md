@@ -1,15 +1,15 @@
-snapper2-producer
+snapper-producer
 ====
-Snapper2 producer client for node.js.
+Snapper producer client for node.js.
 
-**`Snapper2-producer` is tested in `Snapper2`**
+**`Snapper-producer` is tested in `Snapper`**
 
-## Snapper2 https://code.teambition.com/server/snapper2
+## Snapper https://github.com/teambition/snapper
 
 ## Demo
 
 ```js
-var Producer = require('snapper2-producer')
+var Producer = require('snapper-producer')
 
 var producer = new Producer(7800, 'http://snapper.project.bi', {
   producerId: 'testProducerId',
@@ -42,7 +42,7 @@ producer.request('consumers', ['userIdxxx'], function (err, res) {
 ## API
 
 ```js
-var Producer = require('snapper2-producer')
+var Producer = require('snapper-producer')
 ```
 
 ### new Producer(port[, host], options)
@@ -53,8 +53,8 @@ var producer = new Producer(7700, '127.0.0.1', {
   producerId: 'myproducerId'
 })
 ```
-- `port`: `Number`, Snapper2 server port.
-- `host`: `String`, Snapper2 server host, default to `'127.0.0.1'`.
+- `port`: `Number`, Snapper server port.
+- `host`: `String`, Snapper server host, default to `'127.0.0.1'`.
 
 - `options.producerId`: `String`, producer's name, use for log.
 - `options.secretKeys`: A array of string or buffer containing either the secret for HMAC algorithms, or the PEM encoded private key for RSA and ECDSA.
@@ -65,7 +65,7 @@ var producer = new Producer(7700, '127.0.0.1', {
 
 - `payload`: `Object`.
 
-Generate a token string. `payload` should have `userId` property that Snapper2 server determine which room the consumer should auto join (similar to handshake).
+Generate a token string. `payload` should have `userId` property that Snapper server determine which room the consumer should auto join (similar to handshake).
 
 ### producer.prototype.sendMessage(room, message)
 

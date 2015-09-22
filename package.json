@@ -1,19 +1,19 @@
 {
-  "name": "snapper2-producer",
-  "description": "Snapper2 producer client for node.js",
+  "name": "snapper-producer",
+  "description": "Snapper producer client for node.js",
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@code.teambition.com:server/snapper2-producer.git"
+    "url": "git@code.teambition.com:server/snapper-producer.git"
   },
   "engines": {
     "node": ">=0.10.0"
   },
-  "homepage": "https://code.teambition.com/server/snapper2-producer",
+  "homepage": "https://code.teambition.com/server/snapper-producer",
   "keywords": [
     "module",
     "message",
