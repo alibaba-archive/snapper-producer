@@ -4,7 +4,7 @@ Snapper producer client for node.js.
 
 **`Snapper-producer` is tested in `Snapper`**
 
-## Snapper https://github.com/teambition/snapper
+## Snapper https://github.com/teambition/snapper-core
 
 ## Demo
 
