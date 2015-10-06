@@ -4,7 +4,7 @@ Snapper producer client for node.js.
 
 **`Snapper-producer` is tested in `Snapper`**
 
-## Snapper https://github.com/teambition/snapper-core
+## [Snapper-core](https://github.com/teambition/snapper-core) Teambition push messaging service
 
 ## Demo
 
@@ -29,12 +29,17 @@ producer.joinRoom('room', 'consumerId', callback)
 
 producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function (err, res) {/*...*/})
 
+producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~')(function (err, res) {/*...*/})
 // remove a consumer from a room
 producer.leaveRoom('room', 'consumerId', callback)
 
 producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function (err, res) {/*...*/})
+producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~')(function (err, res) {/*...*/})
 
 producer.request('consumers', ['userIdxxx'], function (err, res) {
+  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
+})
+producer.request('consumers', ['userIdxxx'])(function (err, res) {
   console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
 })
 ```
@@ -74,23 +79,26 @@ Generate a token string. `payload` should have `userId` property that Snapper se
 
 Send a message to a room, the message will be broadcast to all consumers in the room.
 
-### producer.prototype.joinRoom(room, consumerId[, callback])
+### producer.prototype.joinRoom(room, consumerId)(callback)
+### producer.prototype.joinRoom(room, consumerId, callback)
 
 - `room`: `String`
 - `consumerId`: `String`
 - `callback`: `Function`
 
-Let a consumer join to a room by it's consumerId.
+Let a consumer join to a room by it's consumerId. if `callback` omitted, it will return thunk function.
 
-### producer.prototype.leaveRoom(room, consumerId[, callback])
+### producer.prototype.leaveRoom(room, consumerId)(callback)
+### producer.prototype.leaveRoom(room, consumerId, callback)
 
 - `room`: `String`
 - `consumerId`: `String`
 - `callback`: `Function`
 
-Let a consumer leave from a room by it's consumerId.
+Let a consumer leave from a room by it's consumerId. if `callback` omitted, it will return thunk function.
 
-### producer.prototype.request(method, params[, callback])
+### producer.prototype.request(method, params)(callback)
+### producer.prototype.request(method, params, callback)
 
 - `method`: `String`
 - `params`: `Object|Array`
