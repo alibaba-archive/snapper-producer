@@ -1,4 +1,3 @@
-'use strict'
 // **Github:** https://code.teambition.com/server/snapper2-node-client
 
 const jws = require('jws')
