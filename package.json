@@ -4,16 +4,16 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@code.teambition.com:server/snapper-producer.git"
+    "url": "git@github.com:teambition/snapper-producer.git"
   },
   "engines": {
     "node": ">=0.10.0"
   },
-  "homepage": "https://code.teambition.com/server/snapper-producer",
+  "homepage": "https://github.com/teambition/snapper-producer",
   "keywords": [
     "module",
     "message",
@@ -28,16 +28,14 @@
     "jws": "~3.1.0"
   },
   "devDependencies": {
-    "standard": "^5.3.1"
+    "standard": "^5.4.1"
   },
   "scripts": {
     "test": "standard"
   },
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "test",
-    "examples",
-    "gulpfile.js"
+  "files": [
+    "README.md",
+    "index.js",
+    "lib"
   ]
 }
