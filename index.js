@@ -1,3 +1,4 @@
+'use strict'
 // **Github:** https://code.teambition.com/server/snapper2-node-client
 
 const jws = require('jws')
@@ -27,7 +28,6 @@ function SnapperProducer (port, host, options) {
   this.producerId = options.producerId
 
   EventEmitter.call(this)
-
   this.connection = new Connection(port, host, this)
 }
 
