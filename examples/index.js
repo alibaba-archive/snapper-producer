@@ -1,7 +1,7 @@
 'use strict'
 // **Github:** https://code.teambition.com/server/snapper2-node-client
 
-var Snapper = require('../index')
+var Snapper = require('..')
 
 var client = new Snapper(7800, 'http://snapper.project.bi', {
   producerId: 'testProducerId',
