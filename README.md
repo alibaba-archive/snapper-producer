@@ -24,23 +24,10 @@ producer.sendMessage('room', 'message')
 
 producer.sendMessage('projects/51762b8f78cfa9f357000011', '{"e":":remove:tasks","d":"553f569aca14974c5f806a01"}')
 
-// add a consumer to a room
-producer.joinRoom('room', 'consumerId', callback)
-
-producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function (err, res) {/*...*/})
-
 producer.joinRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~')(function (err, res) {/*...*/})
-// remove a consumer from a room
-producer.leaveRoom('room', 'consumerId', callback)
-
-producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~', function (err, res) {/*...*/})
 producer.leaveRoom('projects/51762b8f78cfa9f357000011', 'lkoH6jeg8ATcptZQFHHH7w~~')(function (err, res) {/*...*/})
-
-producer.request('consumers', ['userIdxxx'], function (err, res) {
-  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
-})
 producer.request('consumers', ['userIdxxx'])(function (err, res) {
-  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
+  console.log(err, res) // {length: 1, android: 0, ios: 0, web: 1}
 })
 ```
 
@@ -63,14 +50,14 @@ var producer = new Producer(7700, '127.0.0.1', {
 
 - `options.producerId`: `String`, producer's name, use for log.
 - `options.secretKeys`: A array of string or buffer containing either the secret for HMAC algorithms, or the PEM encoded private key for RSA and ECDSA.
-- `options.expiresInSeconds`: default to `3600 * 24`, one day.
+- `options.expiresIn`: default to `3600 * 24`, one day.
 - `options.algorithm`: `String`, default to `'HS256'`.
 
 ### producer.prototype.signAuth(payload)
 
 - `payload`: `Object`.
 
-Generate a token string. `payload` should have `userId` property that Snapper server determine which room the consumer should auto join (similar to handshake).
+Generate a token string. `payload` should have `userId` property and `type` property that Snapper server determine which room the consumer should auto join (similar to handshake).
 
 ### producer.prototype.sendMessage(room, message)
 
@@ -80,45 +67,23 @@ Generate a token string. `payload` should have `userId` property that Snapper se
 Send a message to a room, the message will be broadcast to all consumers in the room.
 
 ### producer.prototype.joinRoom(room, consumerId)(callback)
-### producer.prototype.joinRoom(room, consumerId, callback)
 
 - `room`: `String`
 - `consumerId`: `String`
 - `callback`: `Function`
 
-Let a consumer join to a room by it's consumerId. if `callback` omitted, it will return thunk function.
 
 ### producer.prototype.leaveRoom(room, consumerId)(callback)
-### producer.prototype.leaveRoom(room, consumerId, callback)
 
 - `room`: `String`
 - `consumerId`: `String`
 - `callback`: `Function`
 
-Let a consumer leave from a room by it's consumerId. if `callback` omitted, it will return thunk function.
-
 ### producer.prototype.request(method, params)(callback)
-### producer.prototype.request(method, params, callback)
 
 - `method`: `String`
 - `params`: `Object|Array`
 - `callback`: `Function`
-
-Make a custom request to server. if `callback` omitted, it will return thunk function.
-
-It only support `consumers` method Currently. The callback result will be a array include consumerIds. If user do not have consumer, the result will a emtpy array.
-
-```
-producer.request('consumers', ['userIdxxx'], function (err, res) {
-  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
-})
-```
-or:
-```
-producer.request('consumers', ['userIdxxx'])(function (err, res) {
-  console.log(err, res) // ['lkoH6jeg8ATcptZQFHHH7w~~']
-})
-```
 
 ### producer.prototype.close()
 

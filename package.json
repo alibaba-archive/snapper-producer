@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.2.2",
+  "version": "2.0.0",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -23,12 +23,10 @@
     "client"
   ],
   "dependencies": {
-    "jsonrpc-lite": "^1.1.1",
-    "jws": "~3.1.3",
-    "respjs": "^3.1.2"
+    "toa-net": "^0.6.1"
   },
   "devDependencies": {
-    "standard": "^7.1.0"
+    "standard": "^7.1.2"
   },
   "scripts": {
     "test": "standard"
